@@ -3,12 +3,20 @@ import Header from './componentes/Header/Header';
 import Formulario from './componentes/Formulario/Formulario';
 import MiOrg from './componentes/MiOrg';
 import Equipo from './componentes/Equipo';
+import Footer from './componentes/Footer';
 import './App.css';
 
 function App() {
   const [mostrarFormulario, actualizarMostrar] = useState(false)
+  const [colaboradores, actualizarColaboradores] = useState([])
   const cambiarMostrar = () => {
     actualizarMostrar(!mostrarFormulario)
+  }
+
+  const registrarColaborador = (colaborador) => {
+    console.log("nuevo colaborador", colaborador)
+    //spread operator
+    actualizarColaboradores([...colaboradores, colaborador])
   }
 
   //Lista de equipos
@@ -53,11 +61,23 @@ function App() {
   return (
     <div >
       <Header />
-      {mostrarFormulario && <Formulario />}
+
+      {/* Se le define la prop equipos a Formulario que esta compuesta de un arreglo 
+      que extrae la propiedad nombre de cada elemento del arreglo equipos */}
+      {mostrarFormulario && <Formulario
+        equipos={equipos.map((equipo) => equipo.titulo)}
+        registrarColaborador={registrarColaborador}
+      />}
+
       <MiOrg cambiarMostrar={cambiarMostrar} />
       {
-        equipos.map((equipo)=><Equipo datos={equipo} key={equipo.titulo} />)
+        equipos.map((equipo) => <Equipo
+          datos={equipo}
+          key={equipo.titulo}
+          colaboradores={colaboradores.filter(colaborador => colaborador.equipo === equipo.titulo)}
+        />)
       }
+      <Footer/>
     </div>
   );
 }

@@ -3,12 +3,12 @@ import "./Formulario.css"
 import CampoTexto from "../CampoTexto"
 import ListaOpciones from "../ListaOpciones"
 import Boton from "../Boton"
-const Formulario = () => {
+const Formulario = (props) => {
     const [nombre, actualizarNombre] = useState("")
     const [puesto, actualizarPuesto] = useState("")
     const [foto, actualizarFoto] = useState("")
     const [equipo, actualizarEquipo] = useState("")
-
+    const {registrarColaborador} = props
 
     const manejarEnvio = (evento) => {
         evento.preventDefault()
@@ -18,7 +18,7 @@ const Formulario = () => {
             foto,
             equipo
         }
-        console.log(datosAEnviar)
+        registrarColaborador(datosAEnviar)
     }
     return <section className="formulario">
         <form onSubmit={manejarEnvio}>
@@ -47,6 +47,9 @@ const Formulario = () => {
             <ListaOpciones
                 valor={equipo}
                 actualizarEquipo={actualizarEquipo}
+                // Se le define una prop a lista opciones que obtiene los valores de 
+                // los nombres de cada equipo. Esta prop viene desde App.js
+                equipos = {props.equipos}
             />
             <Boton texto="Crear" />
         </form>

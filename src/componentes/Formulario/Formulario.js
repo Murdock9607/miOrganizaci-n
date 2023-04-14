@@ -1,6 +1,6 @@
 import { useState } from "react"
 import "./Formulario.css"
-import CampoTexto from "../CampoTexto"
+import Campotexto from "../Campo"
 import ListaOpciones from "../ListaOpciones"
 import Boton from "../Boton"
 const Formulario = (props) => {
@@ -8,7 +8,10 @@ const Formulario = (props) => {
     const [puesto, actualizarPuesto] = useState("")
     const [foto, actualizarFoto] = useState("")
     const [equipo, actualizarEquipo] = useState("")
-    const {registrarColaborador} = props
+    const [titulo, actualizarTitulo] = useState("")
+    const [color, actualizarColor] = useState("")
+
+    const { registrarColaborador, crearEquipo } = props
 
     const manejarEnvio = (evento) => {
         evento.preventDefault()
@@ -20,24 +23,28 @@ const Formulario = (props) => {
         }
         registrarColaborador(datosAEnviar)
     }
+    const manejarFormulario = (e) => {
+        e.preventDefault()
+        crearEquipo({ titulo, colorPrimario: color })
+    }
     return <section className="formulario">
         <form onSubmit={manejarEnvio}>
             <h2>Rellena el formulario para crear el colaborador.</h2>
-            <CampoTexto
+            <Campotexto
                 titulo="Nombre"
                 placeholder="Ingresar nombre"
                 required
                 valor={nombre}
                 actualizarValor={actualizarNombre}
             />
-            <CampoTexto
+            <Campotexto
                 titulo="Puesto"
                 placeholder="Ingresar puesto"
                 required
                 valor={puesto}
                 actualizarValor={actualizarPuesto}
             />
-            <CampoTexto
+            <Campotexto
                 titulo="Foto"
                 placeholder="Ingresar enlace de foto"
                 required
@@ -49,9 +56,28 @@ const Formulario = (props) => {
                 actualizarEquipo={actualizarEquipo}
                 // Se le define una prop a lista opciones que obtiene los valores de 
                 // los nombres de cada equipo. Esta prop viene desde App.js
-                equipos = {props.equipos}
+                equipos={props.equipos}
             />
             <Boton texto="Crear" />
+        </form>
+        <form onSubmit={manejarFormulario}>
+            <h2>Rellena el formulario para crear el equipo.</h2>
+            <Campotexto
+                titulo="Titulo"
+                placeholder="Ingresar titulo"
+                required
+                valor={titulo}
+                actualizarValor={actualizarTitulo}
+            />
+            <Campotexto
+                titulo="Color"
+                placeholder="Ingresar el color en HEX"
+                required
+                valor={color}
+                actualizarValor={actualizarColor}
+                type="color"
+            />
+            <Boton texto="Registrar equipo" />
         </form>
     </section>
 }

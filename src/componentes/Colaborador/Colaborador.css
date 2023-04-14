@@ -40,3 +40,9 @@
     font-weight: 400;
     margin: 0;
 }
+
+.eliminar{
+    position: relative;
+    left: 120px;
+    top: 30px;
+}
